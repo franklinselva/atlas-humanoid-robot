@@ -2,7 +2,7 @@
 authors = ["franklin selva <franklinselva10@gmail.com>"]
 description = "A case study on Atlas Humanoid Robot"
 license = "UNLICENSED"
-name = "atlas-humanoid-robot"
+name = "python"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
