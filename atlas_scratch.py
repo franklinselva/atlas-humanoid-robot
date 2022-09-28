@@ -6,8 +6,10 @@ from python.pybullet_api.data import PyBulletData
 
 
 def startup_env():
-	PyBulletSimulator.GUI
-	print("good")
+	PyBulletSimulator()
+#	while(1):                # write a step function, example just defining simulation timestep 
+#		print("good")
+
 
 
 def main():
