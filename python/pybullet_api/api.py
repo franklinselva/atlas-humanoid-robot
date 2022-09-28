@@ -81,8 +81,8 @@ class PyBulletSimulator:
 
     def load_robot(
         self,
-        robot_path: str,
-        base_position: tuple = (0, 0, 0),
+        robot_path: "/Users/vigneshbalaji/atlas-humanoid-robot/data/atlas/atlas_v4_with_multisense.urdf",
+        base_position: tuple = (-2,3,-0.5), # (0, 0, 0),
         base_orientation: tuple = (0, 0, 0, 1),
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
@@ -101,6 +101,21 @@ class PyBulletSimulator:
         )
 
         return self._robot
+
+    def load_env(
+        self,
+        env_path: "/Users/vigneshbalaji/atlas-humanoid-robot/data/botlab/botlab.sdf",
+        globalScaling: int = 2.0,
+    ) -> Optional[int]:
+        """Load a robot from a URDF file."""
+        self._env = p.loadURDF(
+            env_path,
+            globalScaling,
+        )
+
+        return self._env
+
+
 
     def save_world(self, file_path: str) -> None:
         """Save the world to a file."""
