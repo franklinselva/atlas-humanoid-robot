@@ -45,4 +45,3 @@ while (1):
 				x = 10.*math.sin(t)
 				y = 10.*math.cos(t)
 				p.getCameraImage(320,200,lightDirection=[x,y,10],shadow=1)#, renderer=p.ER_BULLET_HARDWARE_OPENGL )
-
