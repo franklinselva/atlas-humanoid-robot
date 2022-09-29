@@ -1,0 +1,15 @@
+{
+    "recommendations": [
+        "njpwerner.autodocstring",
+        "mhutchie.git-graph",
+        "donjayamanne.githistory",
+        "esbenp.prettier-vscode",
+        "ms-python.vscode-pylance",
+        "donjayamanne.python-extension-pack",
+        "donjayamanne.python-environment-manager",
+        "ms-python.python",
+        "cameron.vscode-pytest",
+        "gruntfuggly.todo-tree",
+        "shardulm94.trailing-spaces"
+    ]
+}
