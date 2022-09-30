@@ -1,13 +1,40 @@
 import math
 import time
+import sys
 
 import pybullet as p
 
 
-def setup_env():
-    p.connect(p.GUI)
+p.connect(p.GUI)
+
+
+def empty_environment():
+    """Empty environment."""
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
+    atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0])
+    plane = p.loadURDF("plane.urdf", [0, 0, -1])
+    for i in range(p.getNumJoints(atlas)):
+        p.setJointMotorControl2(atlas, i, p.POSITION_CONTROL, 0)
+        print(p.getJointInfo(atlas, i))
+
+    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
+    # Camera View recorded only suitable for empty environment
+    target = [1.5079, 0.0, 0.28]
+    distance = 1.0
+    pitch = -16.1578
+    yaw = 91.8094
+    p.resetDebugVisualizerCamera(
+        cameraDistance=distance,
+        cameraYaw=yaw,
+        cameraPitch=pitch,
+        cameraTargetPosition=target,
+    )
+
+
+def botlab_environment():
+    """Load botlab environment"""
     atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [-2, 3, -0.5])
+    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
     for i in range(p.getNumJoints(atlas)):
         p.setJointMotorControl2(atlas, i, p.POSITION_CONTROL, 0)
         print(p.getJointInfo(atlas, i))
@@ -23,6 +50,7 @@ def setup_env():
         p.resetBasePositionAndOrientation(o, newpos, neworn)
 
     p.loadURDF("boston_box.urdf", [-2, 3, -2], useFixedBase=True)
+    p.loadURDF("boston_box.urdf", [0, 3, -2], useFixedBase=True)
 
     p.resetDebugVisualizerCamera(
         cameraDistance=1,
@@ -31,7 +59,13 @@ def setup_env():
         cameraTargetPosition=[0.36, 5.3, -0.62],
     )
 
-    p.loadURDF("boston_box.urdf", [0, 3, -2], useFixedBase=True)
+
+def setup_env():
+
+    if "empty" in sys.argv:
+        empty_environment()
+    else:
+        botlab_environment()
 
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
 
@@ -39,6 +73,7 @@ def setup_env():
 
     t = 0
     p.setRealTimeSimulation(1)
+
     while True:
         p.setGravity(0, 0, -10)
         time.sleep(0.01)
