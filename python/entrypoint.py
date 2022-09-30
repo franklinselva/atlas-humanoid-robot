@@ -7,12 +7,17 @@ import pybullet as p
 
 p.connect(p.GUI)
 
-
+# TODO: Rewrite this entrypoint to better handle the environment
 def empty_environment():
     """Empty environment."""
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
-    atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0])
-    plane = p.loadURDF("plane.urdf", [0, 0, -1])
+    if "fixed" in sys.argv:
+        atlas = p.loadURDF(
+            "atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0], useFixedBase=True
+        )
+    else:
+        atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0])
+    plane = p.loadURDF("plane.urdf", [0, 0, -1], useFixedBase=True)
     for i in range(p.getNumJoints(atlas)):
         p.setJointMotorControl2(atlas, i, p.POSITION_CONTROL, 0)
         print(p.getJointInfo(atlas, i))
