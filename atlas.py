@@ -2,6 +2,7 @@ import pybullet as p
 import time
 
 p.connect(p.GUI)
+
 p.configureDebugVisualizer(p.COV_ENABLE_RENDERING,0)
 
 atlas = p.loadURDF("/Users/vigneshbalaji/atlas-humanoid-robot/data/atlas/atlas_v4_with_multisense.urdf", [-2,3,-0.5])
@@ -30,7 +31,6 @@ p.loadURDF("data/boston_box.urdf",[0,3,-2],useFixedBase=True)
 p.configureDebugVisualizer(p.COV_ENABLE_RENDERING,1)
 
 p.getCameraImage(320,200)#, renderer=p.ER_BULLET_HARDWARE_OPENGL )
-
 
 t=0
 p.setRealTimeSimulation(1)
