@@ -107,13 +107,22 @@ class PyBulletSimulator:
 
     def load_env(
         self,
-        env_path: "/Users/vigneshbalaji/atlas-humanoid-robot/data/botlab/botlab.sdf",
-        globalScaling: int = 2.0,
+        env_path: str = "/Users/vigneshbalaji/atlas-humanoid-robot/data/plane.urdf",
+        base_position: tuple = (0,0,-3),
+        base_orientation: tuple = (0, 0, 0, 1),
+#        globalScaling: int = 2.0,
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
         self._env = p.loadURDF(
             env_path,
-            globalScaling,
+            base_position,
+            useFixedBase=False,
+            flags=p.URDF_USE_SELF_COLLISION
+            | p.URDF_USE_INERTIA_FROM_FILE
+            | p.URDF_MERGE_FIXED_LINKS
+            | p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
+            | p.URDF_MAINTAIN_LINK_ORDER,
+            globalScaling = 2.0,
         )
 
         return self._env
