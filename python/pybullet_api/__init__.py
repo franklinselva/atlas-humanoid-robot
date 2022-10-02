@@ -1,6 +1,6 @@
 """PyBullet Simulator API."""
-from .api import PyBulletSimulator
-from .data import PyBulletData
+from pybullet_api.api import PyBulletSimulator
+from pybullet_api.data import PyBulletData
 
 
 __all__ = ["PyBulletSimulator", "PyBulletData"]

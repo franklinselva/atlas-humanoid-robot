@@ -1,14 +1,17 @@
 """PyBullet Simulator"""
+import pybullet as p
+
 from .pybullet_api import PyBulletSimulator
 
 
-class PyBullet:
+class PyBulletEnv:
     """PyBullet Simulator"""
 
     def __init__(
         self,
         data_path: str = "",
         robot_path: str = "",
+        env_path: str = "",
         visualize: bool = True,
     ) -> None:
         # Setup Simulator
@@ -18,8 +21,18 @@ class PyBullet:
         self._simulator.set_time_step()
 
         # Load Robot
+        if visualize:
+            p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
+
         if robot_path != "":
             self._robot = self._simulator.load_robot(robot_path=robot_path)
+
+        # Load Environment
+        if env_path != "":
+            self._env = self._simulator.load_env(env_path=env_path)
+
+        if visualize:
+            p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
 
     def stop_simulation(self) -> None:
         """Stop the simulation."""

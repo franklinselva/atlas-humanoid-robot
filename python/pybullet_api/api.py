@@ -16,7 +16,7 @@ class PyBulletSimulator:
 
     def __init__(
         self,
-        data_path: str = "/Users/vigneshbalaji/atlas-humanoid-robot/data",
+        data_path: str,
         visualize: bool = True,
         initial_pose: Tuple[float, float, float, float, float, float, float] = (
             0.0,
@@ -41,12 +41,9 @@ class PyBulletSimulator:
 
         data_path = os.path.abspath(data_path)
 
-        print("print data path")
-        print(pybullet_data.getDataPath())
+        p.setAdditionalSearchPath(pybullet_data.getDataPath())
         if os.path.exists(data_path):
-           p.setAdditionalSearchPath(data_path)
-
-#       p.setAdditionalSearchPath(pybullet_data.getDataPath())
+            p.setAdditionalSearchPath(data_path)
 
         self._real_time = real_time
         if real_time:
@@ -83,8 +80,8 @@ class PyBulletSimulator:
 
     def load_robot(
         self,
-        robot_path: str = "/Users/vigneshbalaji/atlas-humanoid-robot/data/atlas/atlas_v4_with_multisense.urdf",
-        base_position: tuple = (1,-2,1.0),     # (0, 0, 0),
+        robot_path: str,
+        base_position: tuple = (0, 0, 0),
         base_orientation: tuple = (0, 0, 0, 1),
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
@@ -99,18 +96,15 @@ class PyBulletSimulator:
             | p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
             | p.URDF_MAINTAIN_LINK_ORDER,
             globalScaling=1,
-    #        physicsClientId=self._physics_client, #optional incase need to connect to multiple servers
+            physicsClientId=self._physics_client,  # optional incase need to connect to multiple servers
         )
 
         return self._robot
 
-
     def load_env(
         self,
-        env_path: str = "/Users/vigneshbalaji/atlas-humanoid-robot/data/plane.urdf",
-        base_position: tuple = (0,0,-3),
-        base_orientation: tuple = (0, 0, 0, 1),
-#        globalScaling: int = 2.0,
+        env_path: str = "plane.urdf",
+        base_position: tuple = (0, 0, 0),
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
         self._env = p.loadURDF(
@@ -122,22 +116,14 @@ class PyBulletSimulator:
             | p.URDF_MERGE_FIXED_LINKS
             | p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
             | p.URDF_MAINTAIN_LINK_ORDER,
-            globalScaling = 2.0,
+            globalScaling=2.0,
         )
 
         return self._env
 
-
-
     def save_world(self, file_path: str) -> None:
         """Save the world to a file."""
         p.saveWorld(file_path, self._physics_client)
-
-    def sim_step():
-        p.getConnectionInfo()
-
-    def test_step():                 #test function
-        p.setRealTimeSimulation(1)
 
     def step(self) -> None:
         """Step the simulation."""
