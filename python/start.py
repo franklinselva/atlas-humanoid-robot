@@ -3,13 +3,38 @@ import pybullet as p
 from pybullet_api.api import PyBulletSimulator
 from pybullet_api.data import PyBulletData
 
+maxForce = 500
+
 def startup_env():
 	PyBulletSimulator()
-	PyBulletSimulator.load_robot(PyBulletSimulator)
+	p.configureDebugVisualizer(p.COV_ENABLE_GUI ,0) #debug configure, robot in view
+
+	uid = PyBulletSimulator.load_robot(PyBulletSimulator)
 	PyBulletSimulator.load_env(PyBulletSimulator)
 
+	num_joints = p.getNumJoints(uid)
+	zero_vec = [1.5] * num_joints
+	position = [0.2] * num_joints
+	position[0] = 0.
+	position[8] = 1.5
+	position[17] = 3.0
+	position[29] = 0.5
+	position[23] = -2.0
+	position[25] = -1.0
+
+#	for i in range(30):
+#		print("Joint info index", i, p.getJointInfo(uid, i))
+
 	while(1):
-		PyBulletSimulator.sim_step()  # done to keep the simulator alive
+		PyBulletSimulator.test_step()  # done to keep the simulator alive
+		#p.setJointMotorControl2(bodyUniqueId=uid, jointIndex=20, controlMode=p.VELOCITY_CONTROL, force = maxForce)
+		p.setJointMotorControlArray(uid, range(num_joints), p.POSITION_CONTROL,
+			targetPositions=position, targetVelocities=zero_vec,
+			positionGains=[1.0] * num_joints, velocityGains=[0.3] * num_joints)
+
+def setJointPosition(robot, position, kp=1.0, kv=0.3):
+	num_joints = p.getNumJoints(robot)
+
 
 
 def main():

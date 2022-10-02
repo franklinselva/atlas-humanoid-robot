@@ -84,7 +84,7 @@ class PyBulletSimulator:
     def load_robot(
         self,
         robot_path: str = "/Users/vigneshbalaji/atlas-humanoid-robot/data/atlas/atlas_v4_with_multisense.urdf",
-        base_position: tuple = (-2,3,-0.5),     # (0, 0, 0),
+        base_position: tuple = (1,-2,1.0),     # (0, 0, 0),
         base_orientation: tuple = (0, 0, 0, 1),
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
