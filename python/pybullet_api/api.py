@@ -83,13 +83,14 @@ class PyBulletSimulator:
         robot_path: str,
         base_position: tuple = (0, 0, 0),
         base_orientation: tuple = (0, 0, 0, 1),
+        fixed_base: bool = False,
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
         self._robot = p.loadURDF(
             robot_path,
             base_position,
             base_orientation,
-            useFixedBase=False,
+            useFixedBase=fixed_base,
             flags=p.URDF_USE_SELF_COLLISION
             | p.URDF_USE_INERTIA_FROM_FILE
             | p.URDF_MERGE_FIXED_LINKS
@@ -104,18 +105,10 @@ class PyBulletSimulator:
     def load_env(
         self,
         env_path: str = "plane.urdf",
-        base_position: tuple = (0, 0, 0),
     ) -> Optional[int]:
         """Load a robot from a URDF file."""
-        self._env = p.loadURDF(
+        self._env = p.loadSDF(
             env_path,
-            base_position,
-            useFixedBase=False,
-            flags=p.URDF_USE_SELF_COLLISION
-            | p.URDF_USE_INERTIA_FROM_FILE
-            | p.URDF_MERGE_FIXED_LINKS
-            | p.URDF_ENABLE_CACHED_GRAPHICS_SHAPES
-            | p.URDF_MAINTAIN_LINK_ORDER,
             globalScaling=2.0,
         )
 

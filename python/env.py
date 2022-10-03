@@ -1,4 +1,5 @@
 """PyBullet Simulator"""
+from typing import Tuple
 import pybullet as p
 
 from .pybullet_api import PyBulletSimulator
@@ -11,7 +12,9 @@ class PyBulletEnv:
         self,
         data_path: str = "",
         robot_path: str = "",
+        robot_base_position: Tuple[float, float, float] = (0.0, 0.0, 0.0),
         env_path: str = "",
+        fixed_robot_base: bool = False,
         visualize: bool = True,
     ) -> None:
         # Setup Simulator
@@ -25,7 +28,12 @@ class PyBulletEnv:
             p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
 
         if robot_path != "":
-            self._robot = self._simulator.load_robot(robot_path=robot_path)
+
+            self._robot = self._simulator.load_robot(
+                robot_path=robot_path,
+                fixed_base=fixed_robot_base,
+                base_position=robot_base_position,
+            )
 
         # Load Environment
         if env_path != "":
@@ -45,3 +53,8 @@ class PyBulletEnv:
             raise Exception("Robot not loaded.")
 
         return self._simulator.robot
+
+    @property
+    def env_id(self) -> int:
+        """Retrieve the environment."""
+        return self._simulator.get_client_id()
