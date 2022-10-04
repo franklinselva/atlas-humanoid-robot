@@ -880,7 +880,7 @@ testing = ["func-timeout", "jaraco.itertools", "pytest (>=6)", "pytest-black (>=
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "91b4d2488631a5bd3cc0f60909342cc1c988f9437cf41ca39e7111411951b3ef"
+content-hash = "254fa7c65d3291d0c34dcdbd272f7c511bf760f43d74d48c15336fc960a61b9d"
 
 [metadata.files]
 astroid = [

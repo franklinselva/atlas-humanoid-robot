@@ -59,8 +59,8 @@ def setup_env():
         keys = p.getKeyboardEvents()
         if keys.get(ord("q"), 0) & p.KEY_WAS_TRIGGERED:
             break
-        else:
-            p.stepSimulation()
+
+        p.stepSimulation()
 
 
 def main():

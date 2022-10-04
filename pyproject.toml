@@ -6,20 +6,23 @@ name = "python"
 version = "0.1.0"
 
 [tool.poetry.dependencies]
-protobuf = "^3.20.1"
-python = "^3.8"
-pybullet = "^3.2.5"
 numpy = "^1.23.3"
+protobuf = "^3.20.1"
+pybullet = "^3.2.5"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 black = "^22.3.0"
 isort = "^5.10.1"
 mypy = "^0.950"
+poetry = "^1.2.1"
 pydocstyle = "^6.1.1"
 pylint = "^2.13.8"
 pytest = "^7.1.2"
 pytest-cov = "^3.0.0"
-poetry = "^1.2.1"
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.15.3"
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
@@ -144,7 +147,7 @@ disable = [
   "duplicate-code",
   "fixme",
 ] 
-extension-pkg-whitelist = ["cv2"] 
+extension-pkg-whitelist = ["cv2", "pybullet"] 
 jobs = 1 # 0 for Auto-detect
 
 # List of plugins (as comma separated values of python module names) to load,

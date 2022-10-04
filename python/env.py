@@ -20,6 +20,18 @@ class PyBulletEnv:
         fixed_robot_base: bool = False,
         visualize: bool = True,
     ) -> None:
+        """Pybullet environment
+
+        Args:
+            data_path (str, optional): Additional data path for pybullet. Defaults to "".
+            robot_path (str, optional): file path to the robot urdf. Defaults to "".
+            robot_base_position (Tuple[float, float, float], optional):
+                    Position of the robot base (x, y, z). Defaults to (0.0, 0.0, 0.0).
+            env_path (str, optional): file path to the environment sdf/world. Defaults to "".
+            fixed_robot_base (bool, optional): The robot base will be fixed if true.
+                    Defaults to False.
+            visualize (bool, optional): Visualize the environment with GUI. Defaults to True.
+        """
         # Setup Simulator
         self._simulator = PyBulletSimulator(data_path=data_path, visualize=visualize)
         self._simulator.reset_simulation()
@@ -54,7 +66,11 @@ class PyBulletEnv:
 
     @property
     def robot(self) -> int:
-        """Retrieve the robot."""
+        """Retrieve the robot.
+
+        Returns:
+            int: The robot ID
+        """
         if self._simulator.robot is None:
             raise Exception("Robot not loaded.")
 
@@ -62,7 +78,11 @@ class PyBulletEnv:
 
     @property
     def env_id(self) -> int:
-        """Retrieve the environment."""
+        """Retrieve the environment.
+
+        Returns:
+            int: The environment ID
+        """
         return self._simulator.get_client_id()
 
     def _start_gui_control(self) -> None:
