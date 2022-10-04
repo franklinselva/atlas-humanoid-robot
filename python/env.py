@@ -1,8 +1,11 @@
 """PyBullet Simulator"""
 from typing import Tuple
+
 import pybullet as p
 
-from .pybullet_api import PyBulletSimulator
+from .pybullet_api import PyBulletData, PyBulletSimulator
+
+# TODO: Integrate pybullet_data into the class definition.
 
 
 class PyBulletEnv:
@@ -35,6 +38,9 @@ class PyBulletEnv:
                 base_position=robot_base_position,
             )
 
+        if fixed_robot_base:
+            self._start_gui_control()
+
         # Load Environment
         if env_path != "":
             self._env = self._simulator.load_env(env_path=env_path)
@@ -58,3 +64,13 @@ class PyBulletEnv:
     def env_id(self) -> int:
         """Retrieve the environment."""
         return self._simulator.get_client_id()
+
+    def _start_gui_control(self) -> None:
+        """Start GUI control of the robot."""
+        p.configureDebugVisualizer(p.COV_ENABLE_GUI, 0)
+        p.configureDebugVisualizer(p.COV_ENABLE_TINY_RENDERER, 0)
+        p.configureDebugVisualizer(p.COV_ENABLE_SEGMENTATION_MARK_PREVIEW, 0)
+        p.configureDebugVisualizer(p.COV_ENABLE_DEPTH_BUFFER_PREVIEW, 0)
+        p.configureDebugVisualizer(p.COV_ENABLE_RGB_BUFFER_PREVIEW, 0)
+
+        # TODO: Add support for gui based joint control when using fixed base
