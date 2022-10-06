@@ -166,10 +166,16 @@ class PyBulletSimulator:
         Returns:
             Optional[int]: The environment ID within the simulation
         """
-        self._env = p.loadSDF(
-            env_path,
-            globalScaling=2.0,
-        )
+        if env_path.endswith(".urdf"):
+            self._env = p.loadURDF(
+                env_path,
+                physicsClientId=self._physics_client,
+            )
+        elif env_path.endswith(".sdf"):
+            self._env = p.loadSDF(
+                env_path,
+                globalScaling=2.0,
+            )
 
         return self._env
 

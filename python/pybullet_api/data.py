@@ -75,7 +75,9 @@ class PyBulletData:
         return self._joint_names
 
     @property
-    def joints_info(self) -> List[tuple, int]:
+    def joints_info(
+        self,
+    ) -> List[tuple]:  # FIXME: List cannot be generic in <=Python3.8
         """List of joint info.
 
         Returns:
