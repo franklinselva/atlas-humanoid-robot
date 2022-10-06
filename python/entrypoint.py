@@ -1,83 +1,56 @@
-import math
-import time
+"""Entrypoint for the script."""
+import os
 import sys
+import time
 
 import pybullet as p
 
+from python.env import PyBulletEnv
 
-p.connect(p.GUI)
-
-# TODO: Rewrite this entrypoint to better handle the environment
-def empty_environment():
-    """Empty environment."""
-    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
-    if "fixed" in sys.argv:
-        atlas = p.loadURDF(
-            "atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0], useFixedBase=True
-        )
-    else:
-        atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [0.0, 0.0, 0.0])
-    plane = p.loadURDF("plane.urdf", [0, 0, -1], useFixedBase=True)
-    for i in range(p.getNumJoints(atlas)):
-        p.setJointMotorControl2(atlas, i, p.POSITION_CONTROL, 0)
-        print(p.getJointInfo(atlas, i))
-
-    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
-    # Camera View recorded only suitable for empty environment
-    target = [1.5079, 0.0, 0.28]
-    distance = 1.0
-    pitch = -16.1578
-    yaw = 91.8094
-    p.resetDebugVisualizerCamera(
-        cameraDistance=distance,
-        cameraYaw=yaw,
-        cameraPitch=pitch,
-        cameraTargetPosition=target,
-    )
-
-
-def botlab_environment():
-    """Load botlab environment"""
-    atlas = p.loadURDF("atlas/atlas_v4_with_multisense.urdf", [-2, 3, -0.5])
-    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 0)
-    for i in range(p.getNumJoints(atlas)):
-        p.setJointMotorControl2(atlas, i, p.POSITION_CONTROL, 0)
-        print(p.getJointInfo(atlas, i))
-
-    objs = p.loadSDF("botlab/botlab.sdf", globalScaling=2.0)
-    zero = [0, 0, 0]
-    p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
-    print("converting y to z axis")
-    for o in objs:
-        pos, orn = p.getBasePositionAndOrientation(o)
-        y2x = p.getQuaternionFromEuler([3.14 / 2.0, 0, 3.14 / 2])
-        newpos, neworn = p.multiplyTransforms(zero, y2x, pos, orn)
-        p.resetBasePositionAndOrientation(o, newpos, neworn)
-
-    p.loadURDF("boston_box.urdf", [-2, 3, -2], useFixedBase=True)
-    p.loadURDF("boston_box.urdf", [0, 3, -2], useFixedBase=True)
-
-    p.resetDebugVisualizerCamera(
-        cameraDistance=1,
-        cameraYaw=148,
-        cameraPitch=-9,
-        cameraTargetPosition=[0.36, 5.3, -0.62],
-    )
+DATA_PATH = os.path.join(os.path.dirname(__file__), "..", "data")
+ROBOT_PATH = "atlas/atlas_v4_with_multisense.urdf"
+ENV_PATH = os.path.join(os.path.dirname(__file__), "..", "data", "botlab", "botlab.sdf")
 
 
 def setup_env():
-
+    """Setup the environment."""
+    # TODO: In emtpy environment, the robot falls over. Why?
+    # The behavior is expected but was not observed in the original code.
     if "empty" in sys.argv:
-        empty_environment()
+        env = PyBulletEnv(
+            data_path=DATA_PATH,
+            robot_path=ROBOT_PATH,
+            robot_base_position=(0, 0, 0.9),
+            env_path="plane.urdf",
+        )
+        p.resetDebugVisualizerCamera(
+            cameraDistance=1.0,
+            cameraYaw=91.8094,
+            cameraPitch=-16.1578,
+            cameraTargetPosition=[1.5079, 0.0, 0.28],
+            physicsClientId=env.env_id,
+        )
+
     else:
-        botlab_environment()
+        # TODO: The botlab environment is not loaded correctly.
+        env = PyBulletEnv(
+            data_path=DATA_PATH,
+            robot_path=ROBOT_PATH,
+            robot_base_position=(-2, 3, -0.5),
+            env_path=ENV_PATH,
+        )
+        p.resetDebugVisualizerCamera(
+            cameraDistance=1,
+            cameraYaw=148,
+            cameraPitch=-9,
+            cameraTargetPosition=[0.36, 5.3, -0.62],
+            physicsClientId=env.env_id,
+        )
 
     p.configureDebugVisualizer(p.COV_ENABLE_RENDERING, 1)
 
     p.getCameraImage(320, 200)  # , renderer=p.ER_BULLET_HARDWARE_OPENGL )
-
     t = 0
-    p.setRealTimeSimulation(1)
 
     while True:
         p.setGravity(0, 0, -10)
@@ -86,8 +59,8 @@ def setup_env():
         keys = p.getKeyboardEvents()
         if keys.get(ord("q"), 0) & p.KEY_WAS_TRIGGERED:
             break
-        else:
-            p.stepSimulation()
+
+        p.stepSimulation()
 
 
 def main():
