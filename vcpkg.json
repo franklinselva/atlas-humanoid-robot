@@ -1,0 +1,5 @@
+{
+    "name": "humanoid-robotics",
+    "version": "0.0.1",
+    "dependencies": ["bullet3", "boost"]
+}
