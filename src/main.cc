@@ -2,69 +2,26 @@
 #include <iostream>
 #include <stdio.h>
 
-int main(int argc, char **argv) {
-  btDefaultCollisionConfiguration *collisionConfiguration =
-      new btDefaultCollisionConfiguration();
+using namespace Simulators;
 
-  btCollisionDispatcher *dispatcher =
-      new btCollisionDispatcher(collisionConfiguration);
+int main(int argc, char **argv)
+{
+  BulletApi bulletApi;
 
-  btBroadphaseInterface *overlappingPairCache = new btDbvtBroadphase();
+  bulletApi.setupGround();
+  btCollisionShape *shape = new btBoxShape(btVector3(1, 1, 1));
 
-  btSequentialImpulseConstraintSolver *solver =
-      new btSequentialImpulseConstraintSolver;
+  btScalar mass = 1.0;
+  btTransform startTransform;
+  startTransform.setIdentity();
+  startTransform.setOrigin(btVector3(0, 0, 0));
+  btVector4 color = {1, 1, 1, 1};
 
-  btDiscreteDynamicsWorld *dynamicsWorld = new btDiscreteDynamicsWorld(
-      dispatcher, overlappingPairCache, solver, collisionConfiguration);
+  bulletApi.addDefaultRigidBody(shape, mass, startTransform, color);
 
-  dynamicsWorld->setGravity(btVector3(0, -10, 0));
-
-  for (int i = 0; i < 100; i++) {
-    dynamicsWorld->stepSimulation(1 / 60.f, 10);
-
-    for (int j = dynamicsWorld->getNumCollisionObjects() - 1; j >= 0; j--) {
-      btCollisionObject *obj = dynamicsWorld->getCollisionObjectArray()[j];
-      btRigidBody *body = btRigidBody::upcast(obj);
-      btTransform trans;
-      if (body && body->getMotionState()) {
-        body->getMotionState()->getWorldTransform(trans);
-      } else {
-        trans = obj->getWorldTransform();
-      }
-      printf("world pos object %d = %f,%f,%f\n", j,
-             float(trans.getOrigin().getX()), float(trans.getOrigin().getY()),
-             float(trans.getOrigin().getZ()));
-    }
+  for (int i = 0; i < 300; i++)
+  {
+    bulletApi.stepSimulation();
   }
-
-  // Remove all objects
-  for (int i = dynamicsWorld->getNumCollisionObjects() - 1; i >= 0; i--) {
-    btCollisionObject *obj = dynamicsWorld->getCollisionObjectArray()[i];
-    btRigidBody *body = btRigidBody::upcast(obj);
-    if (body && body->getMotionState()) {
-      delete body->getMotionState();
-    }
-    dynamicsWorld->removeCollisionObject(obj);
-    delete obj;
-  }
-
-  // Delete dynamics world
-  delete dynamicsWorld;
-
-  // Delete solver
-  delete solver;
-
-  // Delete broadphase
-  delete overlappingPairCache;
-
-  // Delete dispatcher
-  delete dispatcher;
-
   std::cout << "Hello, world!" << std::endl;
 }
-
-// Hello world
-// int main(int argc, char **argv) {
-//   printf("Hello world\n");
-//   return 0;
-// }
