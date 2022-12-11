@@ -7,4 +7,6 @@
 
   },
   "clang-tidy.buildPath": "${workspaceFolder}/build",
+  "cmake.configureOnOpen": true,
+  "C_Cpp.errorSquiggles": "disabled",
 }

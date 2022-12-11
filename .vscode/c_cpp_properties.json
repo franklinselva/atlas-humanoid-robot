@@ -4,13 +4,13 @@
             "name": "macOS",
             "includePath": [
                 "${workspaceFolder}/**",
-                "${env:VCPKG_ROOT}/x64-osx/include"
+                "${workspaceFolder}/build/vcpkg_installed/arm64-osx/include"
             ],
             "compilerPath": "/usr/bin/clang",
-            "cStandard": "c11",
+            "cStandard": "c17",
             "cppStandard": "c++17",
             "intelliSenseMode": "clang-x64",
-            "configurationProvider": "ms-vscode.cmake-tools"
+            "configurationProvider": "ms-vscode.cpp-tools"
         }
     ],
     "version": 4

@@ -8,11 +8,13 @@
  * @copyright Copyright (c) 2022
  *
  */
-#include <Bullet3Common/b3HashMap.h>
-#include <atlas/bullet/api.hpp>
+#include <atlas/bullet/api.h>
 
 namespace Simulators {
-BulletApi::BulletApi() {}
+BulletApi::BulletApi() {
+  btDefaultCollisionConfiguration *collisionConfiguration =
+      new btDefaultCollisionConfiguration();
+}
 
 BulletApi::~BulletApi() {}
 } // namespace Simulators

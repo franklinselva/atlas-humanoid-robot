@@ -8,12 +8,12 @@
  * @copyright Copyright (c) 2022
  *
  */
-#ifndef ATLAS_BULLET_API_HPP
-#define ATLAS_BULLET_API_HPP
+#ifndef ATLAS_BULLET_API_H
+#define ATLAS_BULLET_API_H
 
+#include "btBulletDynamicsCommon.h"
 #include <string>
 #include <tuple>
-#include <Bullet3Common/b3HashMap.h>
 
 namespace Simulators {
 class BulletApi {
@@ -52,4 +52,4 @@ private:
 };
 
 };     // namespace Simulators
-#endif // ATLAS_BULLET_API_HPP
+#endif // ATLAS_BULLET_API_H
