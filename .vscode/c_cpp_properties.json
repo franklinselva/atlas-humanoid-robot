@@ -3,8 +3,9 @@
         {
             "name": "macOS",
             "includePath": [
-                "${workspaceFolder}/**",
-                "${workspaceFolder}/build/vcpkg_installed/arm64-osx/include"
+                "${workspaceFolder}/include",
+                "${workspaceFolder}/build/vcpkg_installed/arm64-osx/include",
+                "/usr/local/include"
             ],
             "compilerPath": "/usr/bin/clang",
             "cStandard": "c17",

@@ -1,5 +1,10 @@
 {
     "name": "humanoid-robotics",
     "version": "0.0.1",
-    "dependencies": ["bullet3", "boost"]
+    "dependencies": [
+        {
+            "name": "bullet3",
+            "features": ["double-precision", "multithreading"]
+        }
+    ]
 }

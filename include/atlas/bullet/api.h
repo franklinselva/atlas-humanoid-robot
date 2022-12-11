@@ -14,7 +14,17 @@
 #include "btBulletDynamicsCommon.h"
 
 #include <string>
+#include <assert.h>
+#include <stdio.h>
 #include <tuple>
+
+#ifdef USE_GUI
+#include "b3RobotSimulatorClientAPI.h"
+// #else
+// #include "b3RobotSimulatorClientAPI_NoGUI.h"
+#endif
+
+#define ASSERT_EQ(a, b) assert((a) == (b));
 
 namespace Simulators
 {
