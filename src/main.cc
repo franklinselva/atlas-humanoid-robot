@@ -1,3 +1,4 @@
+#include <atlas/log.h>
 #include <atlas/bullet/api.h>
 #include <iostream>
 #include <stdio.h>

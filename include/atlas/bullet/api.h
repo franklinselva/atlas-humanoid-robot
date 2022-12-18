@@ -19,9 +19,7 @@
 #include <tuple>
 
 #ifdef USE_GUI
-#include "b3RobotSimulatorClientAPI.h"
-// #else
-// #include "b3RobotSimulatorClientAPI_NoGUI.h"
+#include "LinearMath/btIDebugDraw.h"
 #endif
 
 #define ASSERT_EQ(a, b) assert((a) == (b));
