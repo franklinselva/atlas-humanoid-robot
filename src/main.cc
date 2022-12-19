@@ -4,10 +4,13 @@
 #include <stdio.h>
 
 using namespace Simulators;
+using namespace HumanoidRobot;
 
 int main(int argc, char **argv)
 {
   BulletApi bulletApi;
+  Log LOG;
+  LOG.init();
 
   bulletApi.setupGround();
   btCollisionShape *shape = new btBoxShape(btVector3(1, 1, 1));
@@ -20,9 +23,10 @@ int main(int argc, char **argv)
 
   bulletApi.addDefaultRigidBody(shape, mass, startTransform, color);
 
+  LOG.info("Hello, world!");
   for (int i = 0; i < 300; i++)
   {
     bulletApi.stepSimulation();
   }
-  std::cout << "Hello, world!" << std::endl;
+  LOG_INFO("Hello, world!");
 }
